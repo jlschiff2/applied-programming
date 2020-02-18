@@ -1,7 +1,7 @@
 require "forecast_io"
 
 # configure the Dark Sky API with your API key
-ForecastIO.api_key = "YOUR-API-KEY"
+ForecastIO.api_key = "6db4f62deb242d6ae74da3d760af00d6"
 
 # do the heavy lifting, use Global Hub lat/long
 forecast = ForecastIO.forecast(42.0574063,-87.6722787).to_hash
@@ -12,7 +12,17 @@ forecast = ForecastIO.forecast(42.0574063,-87.6722787).to_hash
 
 # Example output:
 #
-# In Chicago, it is currently 33.89 degress and Clear
+
+current_temp = forecast["currently"]["temperature"]
+current_condition = forecast["currently"]["summary"]
+puts "In #{forecast["timezone"]}, it is currently #{current_temp} degrees and #{current_condition}"
+
+# a loop gets built on an array, not a hash!
+# variable made for what the array is, then you can use that to locate the data you need.
+for day in forecast["daily"]["data"]
+    puts "A high temperature of #{day["temperatureHigh"]} and #{day["summary"]}"
+end
+
 # Extended forecast:
 # A high temperature of 36.47 and Possible flurries in the afternoon.
 # A high temperature of 33.98 and Mostly cloudy throughout the day.
